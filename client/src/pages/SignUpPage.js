@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 import Input from "../components/Input";
@@ -17,7 +18,7 @@ const InputsWrapper = styled.div`
 
 const ButtonPositioned = styled.div`
   display: flex;
-  margin: -15px 0; 
+  margin: -15px 0;
 `;
 
 const H2 = styled.h2`
@@ -37,25 +38,76 @@ const StyledLink = styled(Link)`
   color: #2196f3;
 `;
 
-const SignUpPage = () => (
-  <SignUpWrapper>
-    <H2>Registrate para continuar</H2>
-    <InputsWrapper>
-      <Input type="text" placeholder="Ingrese su nombre..." />
-      <Input type="text" placeholder="Ingrese su apellido..." />
-      <Input type="text" placeholder="Ingrese su email..." />
-      <Input type="password" placeholder="Ingrese su contraseña..." />
-    </InputsWrapper>
-    <ButtonPositioned>
-      <Input type="password" placeholder="Confirme su contraseña..." />
-      <Button>
-        <SendIcon />
-      </Button>
-    </ButtonPositioned>
-    <H6>
-      Ya tienes una cuenta? <StyledLink to="/login">Ingresa</StyledLink>
-    </H6>
-  </SignUpWrapper>
-);
+const SignUpPage = () => {
+  const { register, handleSubmit, errors, watch } = useForm({});
+  const password = useRef({});
+  password.current = watch("password", "");
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <SignUpWrapper>
+      <H2>Registrate para continuar</H2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <InputsWrapper>
+          <Input
+            type="text"
+            name="firstName"
+            placeholder="Ingrese su nombre..."
+            ref={register({ required: "Debes ingresar su nombre." })}
+            errors={errors.firstName}
+          />
+          <Input
+            type="text"
+            name="lastName"
+            placeholder="Ingrese su apellido..."
+            ref={register({ required: "Debes ingresar su apellido." })}
+            errors={errors.lastName}
+          />
+          <Input
+            type="text"
+            name="email"
+            placeholder="Ingrese su email..."
+            ref={register({ required: "Debes ingresar su email." })}
+            errors={errors.email}
+          />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Ingrese su contraseña..."
+            ref={register({
+              required: "Debes ingresar una contraseña.",
+              minLength: {
+                value: 8,
+                message: "La contraseña debe tener almenos 8 caracteres.",
+              },
+            })}
+            errors={errors.password}
+          />
+        </InputsWrapper>
+        <ButtonPositioned>
+          <Input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirme su contraseña..."
+            ref={register({
+              required: "Debes confirmar su contraseña.",
+              validate: value =>
+                value === password.current || "La contraseña no coincide."
+            })}
+            errors={errors.confirmPassword}
+          />
+          <Button type="submit">
+            <SendIcon />
+          </Button>
+        </ButtonPositioned>
+      </form>
+      <H6>
+        Ya tienes una cuenta? <StyledLink to="/login">Ingresa</StyledLink>
+      </H6>
+    </SignUpWrapper>
+  );
+};
 
 export default SignUpPage;

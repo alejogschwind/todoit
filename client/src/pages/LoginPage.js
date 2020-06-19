@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useForm } from 'react-hook-form';
 
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -37,22 +38,44 @@ const StyledLink = styled(Link)`
   color: #2196f3;
 `;
 
-const LoginPage = () => (
-  <LoginWrapper>
-    <H2>Ingresa para continuar</H2>
-    <InputsWrapper>
-      <Input type="text" placeholder="Ingrese su email..." />
-    </InputsWrapper>
-    <ButtonPositioned>
-      <Input type="password" placeholder="Ingrese su contraseña..." />
-      <Button>
-        <SendIcon />
-      </Button>
-    </ButtonPositioned>
-    <H6>
-      No tienes una cuenta? <StyledLink to="/signup">Registrate</StyledLink>
-    </H6>
-  </LoginWrapper>
-);
+const LoginPage = () => {
+  const { register, handleSubmit, errors } = useForm({});
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  return (
+    <LoginWrapper>
+      <H2>Ingresa para continuar</H2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <InputsWrapper>
+          <Input
+            type="text"
+            name="email"
+            placeholder="Ingrese su email..."
+            ref={register({ required: "Debes ingresar su email." })}
+            errors={errors.email}
+          />
+        </InputsWrapper>
+        <ButtonPositioned>
+          <Input
+            type="password"
+            name="password"
+            placeholder="Ingrese su contraseña..."
+            ref={register({
+              required: "Debes ingresar su contraseña.",
+            })}
+            errors={errors.password}
+          />
+          <Button>
+            <SendIcon />
+          </Button>
+        </ButtonPositioned>
+      </form>
+      <H6>
+        No tienes una cuenta? <StyledLink to="/signup">Registrate</StyledLink>
+      </H6>
+    </LoginWrapper>
+  );
+};
 
 export default LoginPage;

@@ -12,6 +12,10 @@ const ButtonWrapper = styled.button`
   justify-content: center;
   align-items: center;
 
+  &:focus {
+    outline: none;
+  }
+  
   cursor: pointer;
 `;
 
