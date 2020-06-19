@@ -4,11 +4,11 @@
   "main": "app.js",
   "author": "Alejo Gschwind <alejogschwind.97@gmail.com>",
   "scripts": {
-    "startAPI": "nodemon server/app.js --exec babel-node",
-    "startClient": "nodemon client/src/index.js"
+    "dev": "nodemon server/app.js --exec babel-node"
   },
   "license": "MIT",
   "dependencies": {
+    "apollo-server": "^2.15.0",
     "apollo-server-express": "^2.15.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
