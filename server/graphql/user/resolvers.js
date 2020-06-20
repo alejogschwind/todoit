@@ -24,6 +24,19 @@ import {
 import User from "../../models/User";
 
 export const userResolver = {
+  Query: {
+    userIsLogin: async (_, __, { req }) => {
+      if (! req.userId ) return null
+
+      const user = await User.findById(req.userId);
+
+      if (!user) return null
+
+      return {
+        ...user._doc
+      }
+    },
+  },
   Mutation: {
     loginUser: async (_, { email, password }, { res }) => {
       const user = await User.findOne({ email });

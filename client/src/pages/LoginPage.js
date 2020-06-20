@@ -1,7 +1,7 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, withRouter, Redirect } from "react-router-dom";
 import styled from "styled-components";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -9,6 +9,8 @@ import { ReactComponent as SendIcon } from "../assets/send.svg";
 
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+
+import { AuthContext } from "../context/AuthContext";
 
 const LOGIN_USER = gql`
   mutation loginUser($email: String!, $password: String!) {
@@ -53,20 +55,27 @@ const StyledLink = styled(Link)`
 `;
 
 const LoginPage = (props) => {
+  const { setAuth } = useContext(AuthContext);
+
   const { register, handleSubmit, errors } = useForm({});
-  const [loginUser, {data, error, loading}] = useMutation(LOGIN_USER)
-  const onSubmit = async (data) => {
+
+  const [loginUser, { data, error, loading }] = useMutation(LOGIN_USER);
+
+  const onSubmit = async (input) => {
     try {
-      await loginUser({
+      const { data } = await loginUser({
         variables: {
-          email: data.email,
-          password: data.password,
+          email: input.email,
+          password: input.password,
         },
       });
+      setAuth({ ...data.loginUser });
       props.history.push("/");
     } catch (err) {
+      console.log(err);
     }
   };
+
   return (
     <LoginWrapper>
       <H2>Ingresa para continuar</H2>
@@ -90,7 +99,7 @@ const LoginPage = (props) => {
             })}
             errors={errors.password}
           />
-          <Button loading={{loading}}>
+          <Button loading={{ loading }}>
             <SendIcon />
           </Button>
         </ButtonPositioned>
