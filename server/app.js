@@ -3,9 +3,10 @@ import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
+import cors from "cors";
 
 // Graphql
-import schema from './graphql/schema';
+import schema from "./graphql/schema";
 
 // Models
 import User from "./models/User";
@@ -16,9 +17,9 @@ import { getAccessToken, getRefreshToken } from "./services/auth";
 const startServer = async () => {
   try {
     // Remove Deprecation Warning.
-    mongoose.set('useNewUrlParser', true);
-    mongoose.set('useFindAndModify', false);
-    mongoose.set('useCreateIndex', true);
+    mongoose.set("useNewUrlParser", true);
+    mongoose.set("useFindAndModify", false);
+    mongoose.set("useCreateIndex", true);
     //
     await mongoose.connect(
       `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-3yzwb.gcp.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
@@ -36,6 +37,12 @@ const startServer = async () => {
     });
 
     const app = express();
+
+    const corsOptions = {
+      origin: "http://localhost:3000",
+      credentials: true,
+    };
+    app.use(cors(corsOptions));
 
     app.use(cookieParser());
 
@@ -78,7 +85,7 @@ const startServer = async () => {
       next();
     });
 
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, cors: false });
 
     app.listen({ port: 4000 }, () => {
       console.log(

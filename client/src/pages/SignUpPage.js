@@ -1,11 +1,22 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { ReactComponent as SendIcon } from "../assets/send.svg";
+
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+
+const REGISTER_USER = gql`
+  mutation registerUser($user: RegisterUserInput!) {
+    registerUser(user: $user) {
+      _id
+    }
+  }
+`;
 
 const SignUpWrapper = styled.section`
   width: 60vw;
@@ -38,17 +49,44 @@ const StyledLink = styled(Link)`
   color: #2196f3;
 `;
 
-const SignUpPage = () => {
+const ErrorMessage = styled.div`
+  color: #f3212d;
+  display: block;
+  font-size: 12px;
+  font-weight: 200px;
+`;
+
+const SignUpPage = (props) => {
   const { register, handleSubmit, errors, watch } = useForm({});
   const password = useRef({});
   password.current = watch("password", "");
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const [registerUser, { loading, data, error }] = useMutation(REGISTER_USER);
+
+  const onSubmit = async (inputs) => {
+    try {
+      await registerUser({
+        variables: {
+          user: {
+            firstName: inputs.firstName,
+            lastName: inputs.lastName,
+            email: inputs.email,
+            password: inputs.password,
+            confirmPassword: inputs.confirmPassword,
+          },
+        },
+      });
+      props.history.push("/verify-email");
+    } catch (err) {
+      console.log(err);
+      // throw err;
+    }
   };
 
   return (
     <SignUpWrapper>
       <H2>Registrate para continuar</H2>
+      {error && <ErrorMessage>Algo salio mal :(</ErrorMessage>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputsWrapper>
           <Input
@@ -93,8 +131,8 @@ const SignUpPage = () => {
             placeholder="Confirme su contraseña..."
             ref={register({
               required: "Debes confirmar su contraseña.",
-              validate: value =>
-                value === password.current || "La contraseña no coincide."
+              validate: (value) =>
+                value === password.current || "La contraseña no coincide.",
             })}
             errors={errors.confirmPassword}
           />
@@ -110,4 +148,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default withRouter(SignUpPage);

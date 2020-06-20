@@ -23,7 +23,7 @@ const sendVerificationEmail = async (token, firstName, lastName, email) => {
       html: `
         Hola ${firstName} ${lastName}! Su registro fue realizado satisfactoriamente.<br/>
         Para verficar que sea tu cuenta de correo has click en el corazón:
-        <a href="${process.env.CLIENT_URL}/verify-email/${token}">❤️<a>
+        <a href="${process.env.CLIENT_URL}/verify-email/${token}">❤️</a>
         <br/>
         <br/>
         En caso que no sea usted quien completo el registro, ignore este email.

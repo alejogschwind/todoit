@@ -3,6 +3,8 @@ import { Route, Switch } from "react-router";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import VerifyEmailPage from './pages/VerifyEmailPage';
+import AfterRegister from './pages/AfterRegister';
 
 export const routes = (
   <Switch>
@@ -14,6 +16,12 @@ export const routes = (
     </Route>
     <Route exact path="/signup">
       <SignUpPage />
+    </Route>
+    <Route exact path="/verify-email">
+      <AfterRegister />
+    </Route>
+    <Route path="/verify-email/:token">
+      <VerifyEmailPage />
     </Route>
     <Route path="/:user">
       {/* <User /> */}

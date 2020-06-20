@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Loading from '../Loading';
 
 const ButtonWrapper = styled.button`
   height: 60px;
@@ -19,9 +20,9 @@ const ButtonWrapper = styled.button`
   cursor: pointer;
 `;
 
-const Button = ({ children, ...othersProps }) => (
-  <ButtonWrapper {...othersProps}>
-    {children}
+const Button = ({ children, loanding, ...othersProps }) => (
+  <ButtonWrapper {...othersProps} disabled={loanding}>
+    {loanding ?  <Loading /> : children}
   </ButtonWrapper>
 );
 

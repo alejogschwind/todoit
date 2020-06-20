@@ -1,11 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from 'react-hook-form';
 
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { ReactComponent as SendIcon } from "../assets/send.svg";
+
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
+
+const LOGIN_USER = gql`
+  mutation loginUser($email: String!, $password: String!) {
+    loginUser(email: $email, password: $password) {
+      _id
+      firstName
+      lastName
+      email
+    }
+  }
+`;
 
 const LoginWrapper = styled.section`
   width: 60vw;
@@ -38,10 +52,20 @@ const StyledLink = styled(Link)`
   color: #2196f3;
 `;
 
-const LoginPage = () => {
+const LoginPage = (props) => {
   const { register, handleSubmit, errors } = useForm({});
-  const onSubmit = (data) => {
-    console.log(data);
+  const [loginUser, {data, error, loading}] = useMutation(LOGIN_USER)
+  const onSubmit = async (data) => {
+    try {
+      await loginUser({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      props.history.push("/");
+    } catch (err) {
+    }
   };
   return (
     <LoginWrapper>
@@ -66,7 +90,7 @@ const LoginPage = () => {
             })}
             errors={errors.password}
           />
-          <Button>
+          <Button loading={{loading}}>
             <SendIcon />
           </Button>
         </ButtonPositioned>
@@ -78,4 +102,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default withRouter(LoginPage);

@@ -47,18 +47,18 @@ export const validateNewPassword = (password, confirmPassword) => {
 }
 
 export const validateRegister = (
-  email,
+  // email,
   password,
   confirmPassword,
   ) => {
   let errors = {
-    email: [],
+    // email: [],
     password: [],
   };
   let valid = false;
   
-  if (!RegExp("^[^@]+@[^@]+\.[^@]+$").test(email))
-    errors.email.push("Email not valid.");
+  // if (!RegExp("^[^@]+@[^@]+\.[^@]+$").test(email))
+  //   errors.email.push("Email not valid.");
   
   const {
     passwordErrors,
@@ -68,7 +68,7 @@ export const validateRegister = (
   errors.password = passwordErrors;
 
   if (
-    _.isEmpty(errors.email) &&
+    // _.isEmpty(errors.email) &&
     vaildPassword
   )
     valid = true;

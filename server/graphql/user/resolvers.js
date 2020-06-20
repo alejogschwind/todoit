@@ -63,7 +63,7 @@ export const userResolver = {
         confirmPassword,
       );
 
-      if (!valid) throw new UserInputError("Error", { errors });
+      // if (!valid) throw new UserInputError("Error: invalid user inputs.", { errors });
 
       const userWithThisEmail = await User.findOne({ email });
       if (userWithThisEmail)
@@ -112,15 +112,17 @@ export const userResolver = {
     verifyEmail: async (_, { token }) => {
       try {
         const decoded = await jwt.verify(token, process.env.JWT_EMAIL_SECRET);
-        await User.updateOne(
-          { _id: decoded._id },
+        const res = await User.updateOne(
+          { _id: decoded.id },
           {
             emailVerify: true,
           }
         );
+
         return true;
       } catch (err) {
-        throw err;
+        console.log(err)
+        return false
       }
     },
 

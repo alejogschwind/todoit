@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/share/yarn/bin/yarn.js dev
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js add cros
 
 PATH: 
   /usr/local/opt/sqlite/bin:/home/alejo/.local/bin:/home/alejo/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:~/dev/flutter/bin
@@ -14,12 +14,17 @@ Platform:
   linux x64
 
 Trace: 
-  SyntaxError: /home/alejo/React-Redux/todoit/package.json: Unexpected token } in JSON at position 194
-      at JSON.parse (<anonymous>)
-      at /usr/share/yarn/lib/cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (/usr/share/yarn/lib/cli.js:310:30)
-      at /usr/share/yarn/lib/cli.js:321:13
+  Error: https://registry.yarnpkg.com/cros: Not found
+      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66947:18)
+      at Request.self.callback (/usr/share/yarn/lib/cli.js:140665:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:141637:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:141559:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1221:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -28,10 +33,11 @@ npm manifest:
     "main": "app.js",
     "author": "Alejo Gschwind <alejogschwind.97@gmail.com>",
     "scripts": {
-      "dev": "nodemon server/app.js --exec babel-node",
+      "dev": "nodemon server/app.js --exec babel-node"
     },
     "license": "MIT",
     "dependencies": {
+      "apollo-server": "^2.15.0",
       "apollo-server-express": "^2.15.0",
       "bcryptjs": "^2.4.3",
       "cookie-parser": "^1.4.5",
@@ -40,6 +46,7 @@ npm manifest:
       "mailer": "^0.6.7",
       "mongoose": "^5.9.19",
       "node": "^14.4.0",
+      "nodemailer": "^6.4.10",
       "react": "^16.13.1",
       "react-dom": "^16.13.1",
       "react-hot-loader": "^4.12.21"
@@ -1385,6 +1392,17 @@ Lockfile:
       apollo-server-caching "^0.5.1"
       apollo-server-env "^2.4.4"
   
+  apollo-server@^2.15.0:
+    version "2.15.0"
+    resolved "https://registry.yarnpkg.com/apollo-server/-/apollo-server-2.15.0.tgz#904d36e4e6add76d5618de8a594adfd2c38d34ce"
+    integrity sha512-Qx9VT3kOgJ6WVZlbpUl29I9pyfwFTY4SbZm9npuJd0v+8kVn2YijHB8DEDJ2B/6XP8WCKtq2W0W2RK5Kb1laHQ==
+    dependencies:
+      apollo-server-core "^2.15.0"
+      apollo-server-express "^2.15.0"
+      express "^4.0.0"
+      graphql-subscriptions "^1.0.0"
+      graphql-tools "^4.0.0"
+  
   apollo-tracing@^0.11.0:
     version "0.11.0"
     resolved "https://registry.yarnpkg.com/apollo-tracing/-/apollo-tracing-0.11.0.tgz#8821eb60692f77c06660fb6bc147446f600aecfe"
@@ -2144,7 +2162,7 @@ Lockfile:
       snapdragon "^0.8.1"
       to-regex "^3.0.1"
   
-  express@^4.17.1:
+  express@^4.0.0, express@^4.17.1:
     version "4.17.1"
     resolved "https://registry.yarnpkg.com/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"
     integrity sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g==
@@ -3343,6 +3361,11 @@ Lockfile:
     integrity sha1-qRdIpEjt3zX+JNcnLIGH3cw44lM=
     dependencies:
       mimelib-noiconv "*"
+  
+  nodemailer@^6.4.10:
+    version "6.4.10"
+    resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.10.tgz#f4c8dc7991c57f41fd081bef224ef01f7065143d"
+    integrity sha512-j+pS9CURhPgk6r0ENr7dji+As2xZiHSvZeVnzKniLOw1eRAyM/7flP0u65tCnsapV8JFu+t0l/5VeHsCZEeh9g==
   
   nodemon@^2.0.4:
     version "2.0.4"
