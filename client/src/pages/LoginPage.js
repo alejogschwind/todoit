@@ -70,7 +70,6 @@ const LoginPage = (props) => {
         },
       });
       setAuth({ ...data.loginUser });
-      props.history.push("/");
     } catch (err) {
       console.log(err);
     }
