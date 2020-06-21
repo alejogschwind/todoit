@@ -4,7 +4,7 @@
   "main": "app.js",
   "author": "Alejo Gschwind <alejogschwind.97@gmail.com>",
   "scripts": {
-    "dev": "nodemon server/app.js --exec babel-node"
+    "dev": "nodemon --ignore 'client/' server/app.js --exec babel-node"
   },
   "license": "MIT",
   "dependencies": {
