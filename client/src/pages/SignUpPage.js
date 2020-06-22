@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useSpring, animated } from "react-spring";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
@@ -63,6 +64,14 @@ const SignUpPage = (props) => {
 
   const [registerUser, { error }] = useMutation(REGISTER_USER);
 
+  const style = useSpring({
+    to: { opacity: 1, transform: "translate3d(0px,0,0)" },
+    from: { opacity: 0, transform: "translate3d(-100px,0,0)" },
+    config: {
+      duration: 500
+    }
+  });
+
   const onSubmit = async (inputs) => {
     try {
       await registerUser({
@@ -85,65 +94,67 @@ const SignUpPage = (props) => {
 
   return (
     <SignUpWrapper>
-      <H2>Registrate para continuar</H2>
-      {error && <ErrorMessage>Algo salio mal :(</ErrorMessage>}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <InputsWrapper>
-          <Input
-            type="text"
-            name="firstName"
-            placeholder="Ingrese su nombre..."
-            ref={register({ required: "Debes ingresar su nombre." })}
-            errors={errors.firstName}
-          />
-          <Input
-            type="text"
-            name="lastName"
-            placeholder="Ingrese su apellido..."
-            ref={register({ required: "Debes ingresar su apellido." })}
-            errors={errors.lastName}
-          />
-          <Input
-            type="text"
-            name="email"
-            placeholder="Ingrese su email..."
-            ref={register({ required: "Debes ingresar su email." })}
-            errors={errors.email}
-          />
-          <Input
-            type="password"
-            name="password"
-            placeholder="Ingrese su contraseña..."
-            ref={register({
-              required: "Debes ingresar una contraseña.",
-              minLength: {
-                value: 8,
-                message: "La contraseña debe tener almenos 8 caracteres.",
-              },
-            })}
-            errors={errors.password}
-          />
-        </InputsWrapper>
-        <ButtonPositioned>
-          <Input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirme su contraseña..."
-            ref={register({
-              required: "Debes confirmar su contraseña.",
-              validate: (value) =>
-                value === password.current || "La contraseña no coincide.",
-            })}
-            errors={errors.confirmPassword}
-          />
-          <Button type="submit">
-            <SendIcon />
-          </Button>
-        </ButtonPositioned>
-      </form>
-      <H6>
-        Ya tienes una cuenta? <StyledLink to="/login">Ingresa</StyledLink>
-      </H6>
+      <animated.div style={style}>
+        <H2>Registrate para continuar</H2>
+        {error && <ErrorMessage>Algo salio mal :(</ErrorMessage>}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputsWrapper>
+            <Input
+              type="text"
+              name="firstName"
+              placeholder="Ingrese su nombre..."
+              ref={register({ required: "Debes ingresar su nombre." })}
+              errors={errors.firstName}
+            />
+            <Input
+              type="text"
+              name="lastName"
+              placeholder="Ingrese su apellido..."
+              ref={register({ required: "Debes ingresar su apellido." })}
+              errors={errors.lastName}
+            />
+            <Input
+              type="text"
+              name="email"
+              placeholder="Ingrese su email..."
+              ref={register({ required: "Debes ingresar su email." })}
+              errors={errors.email}
+            />
+            <Input
+              type="password"
+              name="password"
+              placeholder="Ingrese su contraseña..."
+              ref={register({
+                required: "Debes ingresar una contraseña.",
+                minLength: {
+                  value: 8,
+                  message: "La contraseña debe tener almenos 8 caracteres.",
+                },
+              })}
+              errors={errors.password}
+            />
+          </InputsWrapper>
+          <ButtonPositioned>
+            <Input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirme su contraseña..."
+              ref={register({
+                required: "Debes confirmar su contraseña.",
+                validate: (value) =>
+                  value === password.current || "La contraseña no coincide.",
+              })}
+              errors={errors.confirmPassword}
+            />
+            <Button type="submit">
+              <SendIcon />
+            </Button>
+          </ButtonPositioned>
+        </form>
+        <H6>
+          Ya tienes una cuenta? <StyledLink to="/login">Ingresa</StyledLink>
+        </H6>
+      </animated.div>
     </SignUpWrapper>
   );
 };

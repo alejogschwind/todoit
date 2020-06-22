@@ -71,7 +71,7 @@ const HomePage = (props) => {
         </CenterSection>
         <RightSection></RightSection>
       </MAIN>
-      {/* <button onClick={() => handleLogout()}>Logout</button> */}
+      <button onClick={() => handleLogout()}>Logout</button>
     </HomeWrapper>
   );
 };

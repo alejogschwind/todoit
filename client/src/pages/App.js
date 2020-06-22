@@ -21,12 +21,12 @@ const AUTO_LOGIN = gql`
 `;
 
 const AppWrapper = styled.div`
-  /* height: 100vh; */
+  height: 100vh;
   width: 100vw;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
 `;
 
 function App() {

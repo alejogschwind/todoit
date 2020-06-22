@@ -1,7 +1,6 @@
 import React, { forwardRef } from "react";
 
 import styled from "styled-components";
-import { useSpring, animated } from "react-spring";
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -38,23 +37,12 @@ const ErrorMessage = styled.div`
 `;
 
 const Input = forwardRef((props, ref) => {
-  const style = useSpring({
-    from: { opacity: 0, transform: "scale(0)" },
-    to: [
-      { opacity: 1, transform: "scale(1)" },
-    ],
-    config: {
-      duration: 400,
-    },
-  });
 
   return (
-    <animated.div style={style}>
-      <InputWrapper>
+    <InputWrapper>
         <StyledInput {...props} ref={ref} />
         <ErrorMessage>{props.errors && props.errors.message}</ErrorMessage>
-      </InputWrapper>
-    </animated.div>
+    </InputWrapper>
   );
 });
 

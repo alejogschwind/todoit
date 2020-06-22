@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { useSpring, animated } from "react-spring";
 import { useForm } from "react-hook-form";
 
 import Input from "../components/Input";
@@ -61,6 +62,14 @@ const LoginPage = (props) => {
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER);
 
+  const style = useSpring({
+    to: { opacity: 1, transform: "translate3d(0px,0,0)" },
+    from: { opacity: 0, transform: "translate3d(-100px,0,0)" },
+    config: {
+      duration: 500,
+    },
+  });
+
   const onSubmit = async (input) => {
     try {
       const { data } = await loginUser({
@@ -77,35 +86,37 @@ const LoginPage = (props) => {
 
   return (
     <LoginWrapper>
-      <H2>Ingresa para continuar</H2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <InputsWrapper>
-          <Input
-            type="text"
-            name="email"
-            placeholder="Ingrese su email..."
-            ref={register({ required: "Debes ingresar su email." })}
-            errors={errors.email}
-          />
-        </InputsWrapper>
-        <ButtonPositioned>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Ingrese su contraseña..."
-            ref={register({
-              required: "Debes ingresar su contraseña.",
-            })}
-            errors={errors.password}
-          />
-          <Button loading={{ loading }}>
-            <SendIcon />
-          </Button>
-        </ButtonPositioned>
-      </form>
-      <H6>
-        No tienes una cuenta? <StyledLink to="/signup">Registrate</StyledLink>
-      </H6>
+      <animated.div style={style}>
+        <H2>Ingresa para continuar</H2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputsWrapper>
+            <Input
+              type="text"
+              name="email"
+              placeholder="Ingrese su email..."
+              ref={register({ required: "Debes ingresar su email." })}
+              errors={errors.email}
+            />
+          </InputsWrapper>
+          <ButtonPositioned>
+            <Input
+              type="password"
+              name="password"
+              placeholder="Ingrese su contraseña..."
+              ref={register({
+                required: "Debes ingresar su contraseña.",
+              })}
+              errors={errors.password}
+            />
+            <Button loading={{ loading }}>
+              <SendIcon />
+            </Button>
+          </ButtonPositioned>
+        </form>
+        <H6>
+          No tienes una cuenta? <StyledLink to="/signup">Registrate</StyledLink>
+        </H6>
+      </animated.div>
     </LoginWrapper>
   );
 };
