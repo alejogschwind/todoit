@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Input from "../Input";
+import AddTodo from "../AddTodo";
 import UserCard from "../UserCard";
 
 const Nav = styled.nav`
@@ -42,7 +42,7 @@ const Navbar = () => (
       <AddList>Nueva Lista</AddList>
     </LeftWrapper>
     <CenterWrapper>
-      <Input placeholder="Añade una nueva tarea..." />
+      <AddTodo />
     </CenterWrapper>
     <RightWrapper>
       <UserCard firstName="Alejo" lastName="Gschwind" />
