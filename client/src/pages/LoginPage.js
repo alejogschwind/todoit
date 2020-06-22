@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, withRouter, Redirect } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 
@@ -59,7 +59,7 @@ const LoginPage = (props) => {
 
   const { register, handleSubmit, errors } = useForm({});
 
-  const [loginUser, { data, error, loading }] = useMutation(LOGIN_USER);
+  const [loginUser, { loading }] = useMutation(LOGIN_USER);
 
   const onSubmit = async (input) => {
     try {

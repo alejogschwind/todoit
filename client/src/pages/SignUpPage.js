@@ -61,7 +61,7 @@ const SignUpPage = (props) => {
   const password = useRef({});
   password.current = watch("password", "");
 
-  const [registerUser, { loading, data, error }] = useMutation(REGISTER_USER);
+  const [registerUser, { error }] = useMutation(REGISTER_USER);
 
   const onSubmit = async (inputs) => {
     try {

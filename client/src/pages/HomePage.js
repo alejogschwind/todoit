@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
-import Checkbox from "../components/Checkbox";
-import Todo from "../components/Todo";
+import Todos from "../components/Todos";
 
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
@@ -29,19 +28,19 @@ const MAIN = styled.div`
 `;
 
 const LeftSection = styled.div`
-  width: 20%;
+  width: 25vw;
   height: 100%;
   /* background: red; */
 `;
 
 const RightSection = styled.div`
-  width: 20%;
+  width: 25vw;
   height: 100%;
   /* background: blue; */
 `;
 
-const CenterSection = styled.div`
-  width: 80%;
+const CenterSection = styled.ul`
+  width: 50vw;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -51,7 +50,7 @@ const CenterSection = styled.div`
 
 const HomePage = (props) => {
   const { setAuth } = useContext(AuthContext);
-  const [logoutUser, { loading, data, error }] = useMutation(LOGOUT_USER);
+  const [logoutUser] = useMutation(LOGOUT_USER);
 
   const handleLogout = async () => {
     try {
@@ -68,16 +67,7 @@ const HomePage = (props) => {
       <MAIN>
         <LeftSection></LeftSection>
         <CenterSection>
-          {/* <Checkbox /> */}
-          <Todo />
-          <Todo />
-          <Todo />
-          <Todo />
-          <Todo />
-          <Todo />
-          <Todo />
-          <Todo />
-          <Todo />
+          <Todos />
         </CenterSection>
         <RightSection></RightSection>
       </MAIN>

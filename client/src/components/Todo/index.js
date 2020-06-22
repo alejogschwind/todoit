@@ -1,9 +1,19 @@
 import React, { useState } from "react";
+
 import styled from "styled-components";
+import { animated, useSpring } from "react-spring";
 
-import Checkbox from "../Checkbox";
+import CheckTodo from "../CheckTodo";
+import DeleteTodo from "../DeleteTodo";
 
-const TodoWrapper = styled.div`
+const TodoWrapper = styled.li`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const RigthWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 50vw;
@@ -20,15 +30,16 @@ const TodoText = styled.span`
     props.checked ? "line-through solid #2196F3" : "none"};
 `;
 
-const Todo = () => {
-  const [check, setCheck] = useState(false);
+const Todo = ({ text, id, done }) => {
+  const [check, setCheck] = useState(done)
 
   return (
     <TodoWrapper>
-      <Checkbox check={check} setCheck={setCheck} />
-      <TodoText checked={check}>
-        Hacer las compras
-      </TodoText>
+      <RigthWrapper>
+        <CheckTodo check={check} id={id} setCheck={setCheck} />
+        <TodoText checked={check}>{text}</TodoText>
+      </RigthWrapper>
+      <DeleteTodo id={id} />
     </TodoWrapper>
   );
 };

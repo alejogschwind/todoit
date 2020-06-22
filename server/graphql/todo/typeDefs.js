@@ -16,7 +16,7 @@ export const todoTypeDefs = gql`
     createTodo(text: String!): Todo!
     checkTodo(id: String!, done: Boolean!): Todo!
     updateTodo(id: String!, text: String, done: Boolean): Todo!
-    deleteTodo(id: String!): Todo!
+    deleteTodo(id: ID!): Todo
   }
 
   type Subscription {

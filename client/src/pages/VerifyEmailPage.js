@@ -24,7 +24,7 @@ const VERIFY_EMAIL = gql`
 `;
 
 const VerifyEmailPage = (props) => {
-  const [verifyEmail, { data, error, loading }] = useMutation(VERIFY_EMAIL);
+  const [verifyEmail, { data, loading }] = useMutation(VERIFY_EMAIL);
 
   useEffect(() => {
     const mutate = async () => {

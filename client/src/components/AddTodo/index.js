@@ -1,9 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import Input from "../Input";
 
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+
+import { GET_TODOS } from '../Todos'
 
 const CREATE_TODO = gql`
   mutation createTodo($text: String!) {
@@ -16,16 +18,14 @@ const CREATE_TODO = gql`
 `;
 
 const AddTodo = () => {
-  const [addTodo, { data, error, loading }] = useMutation(CREATE_TODO, {
-    refetchQueries: [{ query: "todos" }],
+  const [addTodo] = useMutation(CREATE_TODO, {
+    refetchQueries: [{query: GET_TODOS}],
   });
   const [newTodo, setNewTodo] = useState("");
 
   const handelKeyDown = async (e) => {
-    console.log('key')
-    if (e.key === "Enter") {
-      console.log('key')
-      const { data } = await addTodo({
+    if (e.key === "Enter" && !(newTodo === "")) {
+      await addTodo({
         variables: {
           text: newTodo,
         },

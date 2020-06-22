@@ -1,11 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 
 import Loading from "../components/Loading";
 import Routes from "../routes";
-
-import useAutoLogin from "../hooks/useAutoLogin";
 
 import { AuthContext } from "../context/AuthContext";
 
@@ -32,14 +29,12 @@ const AppWrapper = styled.div`
   align-items: center; */
 `;
 
-const checkLogin = (data) => {};
-
 function App() {
   const [auth, setAuth] = useState(null);
 
   const authValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
 
-  const { data, error } = useQuery(AUTO_LOGIN);
+  const { data } = useQuery(AUTO_LOGIN);
 
   useEffect(() => {
     if (data) {

@@ -8,11 +8,18 @@ const CheckboxWrapper = styled.div`
   height: 27px;
   width: 27px;
   cursor: pointer;
-`
 
-const Checkbox = ({ check, setCheck}) => {
+  &:focus {
+    outline: none;
+  }
+
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+`;
+
+const Checkbox = ({ check, handleUpdate }) => {
   return (
-    <CheckboxWrapper onClick={() => setCheck(!check)}>
+    <CheckboxWrapper onClick={handleUpdate}>
       {check ? <CheckboxIcon /> : <BoxIcon />}
     </CheckboxWrapper>
   );

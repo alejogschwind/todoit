@@ -6,14 +6,41 @@ import * as serviceWorker from "./serviceWorker";
 
 import GlobalStyle from "./globalstyles";
 
-import { ApolloClient, HttpLink, InMemoryCache } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { toIdValue } from "apollo-utilities";
+import gql from "graphql-tag";
+import { ApolloClient, HttpLink } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 
-const link = new HttpLink({ uri: "http://localhost:4000/graphql", credentials: 'include' });
+const link = new HttpLink({
+  uri: "http://localhost:4000/graphql",
+  credentials: "include",
+});
+
+const cache = new InMemoryCache({
+  dataIdFromObject: (object) => object.id,
+});
 
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache,
+  ssrForceFetchDelay: 400,
+  resolvers: {
+    Mutation: {
+      checkTodo: (_root, variables, { cache, getCacheKey }) => {
+        const id = getCacheKey({ __typename: "Todo", id: variables.id });
+        const fragment = gql`
+          fragment done on Todo {
+            done
+          }
+        `;
+        const todo = cache.readFragment({ fragment, id });
+        const data = { ...todo, done: !todo.done };
+        cache.writeData({ id, data });
+        return null;
+      },
+    },
+  },
   // onError: ({ networkError, graphQLErrors }) => {
   //   console.log('graphQLErrors', graphQLErrors)
   //   console.log('networkError', networkError)

@@ -1,5 +1,5 @@
 import Todo from "../../models/Todo";
-import { ApolloError } from "apollo-server";
+import { ApolloError, AuthenticationError } from "apollo-server";
 
 const TODOS_CHANGED = "TODOS_CHANGED";
 
@@ -24,7 +24,7 @@ export const todoResolver = {
       };
     },
 
-    checkTodo: async (_, { id, done }, { pubsub }) => {
+    checkTodo: async (_, { id, done }) => {
       const todo = await Todo.findOne({ _id: id });
 
       if (!todo)
@@ -40,8 +40,6 @@ export const todoResolver = {
         { done: done },
         { new: true }
       ).exec();
-
-      pubsub.publish(TODOS_CHANGED, { todosChanged: newTodo });
 
       return newTodo
     },
@@ -77,6 +75,16 @@ export const todoResolver = {
 
         return Todo.findOneAndUpdate({ _id: id }, { text: text }).exec();
       }
+    },
+
+    deleteTodo: async (_, { id }, { req }) => {
+      if (!req.userId)
+        throw new AuthenticationError("You are not authenticated.")
+
+      const res = await Todo.findOneAndDelete({ _id: id });
+      console.log(res)
+      
+      return res
     },
   },
 
